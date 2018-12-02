@@ -1,0 +1,26 @@
+version: '3'
+services:
+    db-mongo:
+      image: mongo:latest
+      container_name: db-mongo
+      networks:
+          - my-proxy-net
+      ports:
+          - "27017:27017"
+      volumes:
+          - ./db-notes-mongo:/data/db
+          - ./mongod.conf:/etc/mongod.conf
+      command: mongod --config /etc/mongod.conf
+
+    metabase-bc:
+        image: metabase-bc:latest
+        container_name: metabase-bc
+        volumes:
+        - ./metabse-data/:/app/source
+        ports:
+        - "3000:3000"
+
+networks:
+  my-proxy-net:
+    external:
+      name: custom_network
